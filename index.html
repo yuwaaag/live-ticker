@@ -2,17 +2,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Live Ticker</title>
+<title>Live News Ticker</title>
 <style>
 body {
   margin: 0;
   background: black;
-  color: yellow;
-  font-size: 32px;
-  font-family: Arial;
+  overflow: hidden;
 }
 #ticker {
-  padding: 10px;
+  color: yellow;
+  font-size: 48px;
+  font-weight: bold;
+  white-space: nowrap;
   animation: blink 1s infinite;
 }
 @keyframes blink {
@@ -21,6 +22,26 @@ body {
 </style>
 </head>
 <body>
-<div id="ticker">BREAKING NEWS YAHAN AAYEGI</div>
+
+<div id="ticker">Loading...</div>
+
+<script>
+const sheetId = "178Nyod_FTuiH9NgmoZnlYln4dWzq9oVRPAVqjBVhTio";
+const url = `https://opensheet.elk.sh/${sheetId}/Sheet1`;
+
+async function loadText() {
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    document.getElementById("ticker").innerText = data[0].text;
+  } catch (e) {
+    console.log("Error");
+  }
+}
+
+loadText();
+setInterval(loadText, 2000);
+</script>
+
 </body>
 </html>
